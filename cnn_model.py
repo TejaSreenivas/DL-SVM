@@ -33,7 +33,7 @@ class CNN:
 		conv2 = tf.layers.max_pooling2d(conv2, 2, 2, padding='same')
 		conv3 = tf.layers.conv2d(conv2, filters=256, kernel_size=3, padding='same', activation=tf.nn.relu, use_bias=True )
 		conv3 = tf.layers.batch_normalization(conv3, training = is_train)
-		conv3 = tf.layers.max_pooling2d(conv3, 2, 2s, padding='same')
+		conv3 = tf.layers.max_pooling2d(conv3, 2, 2, padding='same')
 		flat = tf.layers.flatten(conv3)
 		h1 = tf.layers.dense(flat,units = 1000, activation = tf.nn.relu)
 		h1 = tf.layers.dropout(h1, training = is_train)
