@@ -34,7 +34,7 @@ class CNN:
 	def cnn(self,data,is_train,prob_keep):
 		DIM = 32
 		CH = 3
-		FLT = 5
+		FLT = 3
 		data = tf.layers.batch_normalization(data,training = is_train)
 		with tf.variable_scope("conv_1",reuse = tf.AUTO_REUSE):
 			conv1 = self.create_conv_layer(data,[FLT,FLT,CH,32],[1]*4,"SAME")
