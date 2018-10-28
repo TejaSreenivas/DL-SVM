@@ -34,7 +34,7 @@ class CNN:
 	def cnn(self,data,is_train,prob_keep):
 		DIM = 32
 		CH = 3
-		FLT = 3
+		FLT = 5
 		data = tf.layers.batch_normalization(data,training = is_train)
 		with tf.variable_scope("conv_1",reuse = tf.AUTO_REUSE):
 			conv1 = self.create_conv_layer(data,[FLT,FLT,CH,32],[1]*4,"SAME")
@@ -42,7 +42,7 @@ class CNN:
 			conv1 = tf.layers.batch_normalization(conv1,training=is_train)
 		DIM = int(DIM/2)
 		CH = 32
-		FLT = 3
+		FLT = 7
 		with tf.variable_scope('conv_2',reuse=tf.AUTO_REUSE):
 			conv2 = self.create_conv_layer(conv1,[FLT,FLT,CH,64],[1]*4,"SAME")
 			conv2 = tf.nn.max_pool(conv2,ksize=[1,2,2,1], strides = [1,2,2,1], padding = 'SAME')
@@ -70,6 +70,7 @@ class CNN:
 		h1 = tf.layers.dense(flat,units=1000)
 		h1 = tf.nn.relu(h1)
 		h1 = tf.layers.dropout(h1,rate = prob_keep, training = is_train)
+		h1 = tf.layers.batch_normalization(h1, training = is_train)
 
 		#logits
 		#number of output classes + additional classes
