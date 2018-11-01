@@ -56,7 +56,7 @@ class CNN:
 		h1 = tf.nn.relu(h1)
 		h1 = tf.layers.dropout(h1, rate = prob_keep, training = is_train)
 
-		y = tf.layers.dense(h1, units = 10,activation=tf.nn.softmax)
+		y = tf.layers.dense(h1, units = 10)
 		return y
 
 	def __init__(self, data, is_train, prob_keep):
