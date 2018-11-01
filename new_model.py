@@ -42,7 +42,7 @@ class CNN:
 			conv2 = tf.layers.batch_normalization(conv2, training = is_train)
 			conv2 = tf.nn.relu(conv2)
 			conv2 = tf.nn.max_pool(conv2, ksize=[1,2,2,1], strides = [1,2,2,1], padding = "SAME")
-			conv2 = tf.layers.dropout(conv1, rate = prob_keep, training = is_train)
+			conv2 = tf.layers.dropout(conv2, rate = prob_keep, training = is_train)
 		l3 = [3,3,l2[-1],128]
 		with tf.variable_scope("conv_3", reuse=tf.AUTO_REUSE):
 			conv3 = self.create_conv_layer(conv2, l3, [1]*4, "SAME")
