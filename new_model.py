@@ -29,33 +29,34 @@ class CNN:
 		return out
 
 	def cnn(self, data, is_train, prob_keep):
-		l1 = [3,3,3,64]
+		l1 = [3,3,3,32]
 		with tf.variable_scope("conv_1", reuse=tf.AUTO_REUSE):
 			conv1 = self.create_conv_layer(data, l1, [1]*4, "SAME")
 			conv1 = tf.layers.batch_normalization(conv1, training = is_train)
 			conv1 = tf.nn.relu(conv1)
 			conv1 = tf.nn.max_pool(conv1, ksize=[1,2,2,1], strides = [1,2,2,1], padding = "SAME")
-		l2 = [5,5,l1[-1],128]
+			conv1 = tf.layers.dropout(conv1, rate = prob_keep, training = is_train)
+		l2 = [3,3,l1[-1],64]
 		with tf.variable_scope("conv_2", reuse=tf.AUTO_REUSE):
 			conv2 = self.create_conv_layer(conv1, l2, [1]*4, "SAME")
 			conv2 = tf.layers.batch_normalization(conv2, training = is_train)
 			conv2 = tf.nn.relu(conv2)
 			conv2 = tf.nn.max_pool(conv2, ksize=[1,2,2,1], strides = [1,2,2,1], padding = "SAME")
-		l3 = [5,5,l2[-1],256]
+			conv2 = tf.layers.dropout(conv1, rate = prob_keep, training = is_train)
+		l3 = [3,3,l2[-1],128]
 		with tf.variable_scope("conv_3", reuse=tf.AUTO_REUSE):
 			conv3 = self.create_conv_layer(conv2, l3, [1]*4, "SAME")
 			conv3 = tf.layers.batch_normalization(conv3, training = is_train)
 			conv3 = tf.nn.relu(conv3)
 			conv3 = tf.nn.max_pool(conv3, ksize=[1,2,2,1], strides = [1,2,2,1], padding = "SAME")
-		
+			conv3 = tf.layers.dropout(conv3, rate = prob_keep, training = is_train)
 		flat = tf.layers.flatten(conv3)
-
-		h1 = tf.layers.dense(flat, units = 1000)
-		h1 = tf.layers.batch_normalization(h1, training = is_train)
+		h1 = tf.layers.dense(flat, units = 80)
+		#h1 = tf.layers.batch_normalization(h1, training = is_train)
 		h1 = tf.nn.relu(h1)
 		h1 = tf.layers.dropout(h1, rate = prob_keep, training = is_train)
 
-		y = tf.layers.dense(h1, units = 10)
+		y = tf.layers.dense(h1, units = 10,activation=tf.nn.softmax)
 		return y
 
 	def __init__(self, data, is_train, prob_keep):
