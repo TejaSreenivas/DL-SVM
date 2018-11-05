@@ -29,7 +29,7 @@ class CNN:
         return out
     def hidden_layer(self,units,prev,prob_keep,is_train):
         h1 = tf.layers.dense(prev, units = units)
-        #h1 = tf.layers.batch_normalization(h1, training = is_train)
+        h1 = tf.layers.batch_normalization(h1, training = is_train)
         h1 = tf.nn.relu(h1)
         h1 = tf.layers.dropout(h1, rate = prob_keep, training = is_train)
         return h1
