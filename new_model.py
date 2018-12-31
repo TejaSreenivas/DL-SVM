@@ -56,7 +56,7 @@ class CNN:
             conv3 = tf.nn.relu(conv3)
             conv3 = tf.nn.max_pool(conv3, ksize=[1,2,2,1], strides = [1,2,2,1], padding = "SAME")
             conv3 = tf.layers.dropout(conv3, rate = prob_keep, training = is_train)
-        """
+        
         l4 = [3,3,l3[-1],256]
         with tf.variable_scope("conv_4", reuse=tf.AUTO_REUSE):
             conv4 = self.create_conv_layer(conv3, l4, [1]*4, "SAME")
@@ -64,8 +64,8 @@ class CNN:
             conv4 = tf.nn.relu(conv4)
             conv4 = tf.nn.max_pool(conv4, ksize=[1,2,2,1], strides = [1,2,2,1], padding = "SAME")
             conv4 = tf.layers.dropout(conv4, rate = prob_keep, training = is_train)
-        """
-        flat = tf.layers.flatten(conv3)
+        
+        flat = tf.layers.flatten(conv4)
         h1 = self.hidden_layer(80,flat,prob_keep,is_train)
         #h1 = self.hidden_layer(100,h1,prob_keep,is_train)
         #h1 = self.hidden_layer(500,h1,prob_keep,is_train)
